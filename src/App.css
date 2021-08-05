@@ -1,0 +1,82 @@
+
+
+    HTML CSS Babel 
+
+    Result
+    Skip Results Iframe
+
+body {
+  background-color: rgb(36, 36, 228);
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  
+}
+
+.colourR{
+  color: red;
+  text-shadow: 5px 2px 4px #000
+}
+.colourB{
+  color: blue;
+  text-shadow: 5px 5px 4px #000
+}
+
+@keyframes spin { 
+  from { 
+      transform: rotateY(0deg); 
+  } to { 
+      transform: rotateY(360deg); 
+  }
+}
+
+.colourRWin {
+  color: red;
+  text-shadow: 5px 2px 4px #000;
+  animation: spin 3s 3;
+  font-size: 50px;
+}
+
+.colourBWin {
+  color: blue;
+  text-shadow: 5px 5px 4px #000;
+  animation: spin 3s 3;
+  font-size: 50px;
+}
+.status {
+  margin-bottom: 10px;
+}
+.container {
+  position: relative;
+  left: 25vw;
+}
+
+.square {
+  background: #aaa;
+  border: 1px solid #222;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 70px;
+  width:100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+.square:focus {
+  outline: bold;
+}
+
+
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
