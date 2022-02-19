@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 //import Game from './three';
+//import Game2 from './five'
 import Game from './fullGame'
-import Game2 from './five'
+
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game2 />
+    <Game />
   </React.StrictMode>,
   document.getElementById('root')
 );

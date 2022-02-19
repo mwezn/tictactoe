@@ -28,8 +28,15 @@ class Board extends React.Component {
       let parentDiv=document.getElementById('choice')
       console.log(parentDiv)
       parentDiv.style.display="none";
-    
-
+      let btn=document.getElementById('resetbtn')
+      btn.style.display="";
+  }
+  reset(){
+    this.setState(initialState);
+    let parentDiv=document.getElementById('choice')
+    parentDiv.style.display="";
+    let btn=document.getElementById('resetbtn')
+    btn.style.display="none";
   }
 
   bestMove(board){
@@ -69,11 +76,6 @@ class Board extends React.Component {
    
     return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} />;
   }
-  reset(){
-    this.setState(initialState);
-    let parentDiv=document.getElementById('choice')
-    parentDiv.style.display="";
-  }
  
 
   render() {
@@ -82,18 +84,20 @@ class Board extends React.Component {
     if (winner) {
       console.log(winner);
       status = <div className={winner=="X"?"colourRWin":winner=="O"?"colourBWin":"colourG"}>Winner!{winner}</div>
-    } 
+    }
+    let player=this.state.human!==""?<h2>You are {this.state.human}</h2>:<h2>Choose a player</h2>
 
     return (
       <div className="container">
+        {player}
         
         <div className="status">{status}</div>
         <div className="choice" id="choice">
-            <h2>Choose a player</h2>
-            <button value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
-            <button value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
+            
+            <button className="btn btn-danger" value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
+            <button className="btn btn-primary" value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
         </div>
-        <button onClick={this.reset}>Reset</button>
+        <button id="resetbtn" onClick={this.reset}>Reset</button>
         <div>Click on a square:</div>
         <div className="board-row">
           {this.renderSquare(0)}
