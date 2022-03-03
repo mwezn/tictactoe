@@ -19,7 +19,7 @@ class Board extends React.Component {
     
   }
   reset=this.reset.bind(this); //This is needed for reset
-
+  handleAi=this.handleAi.bind(this)
 
 
   
