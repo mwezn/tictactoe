@@ -20,15 +20,6 @@ class Board extends React.Component {
   }
   reset=this.reset.bind(this); //This is needed for reset
 
-  choosePlayer(e){
-    let player=e.target.value;
-    console.log(player)
-    e.target.value=="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
-    let parentDiv=document.getElementById('choice')
-    console.log(parentDiv)
-    parentDiv.style.display="none";
-}
- 
 
 
   
@@ -49,9 +40,10 @@ class Board extends React.Component {
       }
     }
     board[bestmove]=this.state.ai;
+    setTimeout(this.handleAi(),500)
 }
 
-  handleClick(i){
+  handleAi(i){
     const sq=this.state.squares.slice()
     if (sq[i]==null){
       sq[i]=this.state.human
@@ -66,7 +58,7 @@ class Board extends React.Component {
   }
   renderSquare(i) {
    
-    return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} />;
+    return <Square value={this.state.squares[i]} />;
   }
   reset(){
     this.setState(initialState);
@@ -88,8 +80,7 @@ class Board extends React.Component {
         <div className="status">{status}</div>
         <div className="choice" id="choice">
             <h2>Choose a player</h2>
-            <button value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
-            <button value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
+            <button onClick={this.handleAi}>Start AI Game</button>
         </div>
         <button onClick={this.reset}>Reset</button>
         <div className="board-row">
@@ -215,4 +206,3 @@ class Game extends React.Component {
 }
 
 export default Game
-

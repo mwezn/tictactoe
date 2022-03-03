@@ -52,7 +52,7 @@ body {
 
 .square {
   background: #aaa;
-  border: 1px solid #222;
+  border: 2px solid #222;
   float: left;
   font-size: 50px;
   font-weight: bold;

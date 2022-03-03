@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import Game from './three';
-//import Game2 from './five'
+import Game2 from './five'
 import Game from './fullGame'
+import AI from './aip2'
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
+    <AI/>
   </React.StrictMode>,
   document.getElementById('root')
 );
