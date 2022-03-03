@@ -1,5 +1,7 @@
 import React from 'react'
 import './App.css'
+let human="X"
+let ai="O"
 
 let memo;
 function Square(props) {
@@ -10,7 +12,7 @@ function Square(props) {
   );
 }
 
-const initialState={squares:Array(25).fill(null),human:"",ai:""}
+const initialState={squares:Array(25).fill(null)}
 
 class Board extends React.Component {
   constructor(props){
@@ -19,18 +21,40 @@ class Board extends React.Component {
     
   }
   reset=this.reset.bind(this); //This is needed for reset
-  handleAi=this.handleAi.bind(this)
+  startAi=this.startAi.bind(this)
+  bestMove=this.bestMove.bind(this)
+  worstMove=this.worstMove.bind(this)
 
+bestMove(board){
+    let worstScore=-100;
+    let worst;
+  for (let i=0;i< 25;i++){
+    if (board[i]==null){
+        board[i]=human;
+        let score=miniMax1(human,ai,board,memo={},0,false);
+        board[i]=null;
+        if (score>worstScore){
+            worst=i;
+            worstScore=score;
+        }
+    }
+   }
+   board[worst]=human;
+   this.setState({squares:board})
+  
+   setTimeout(this.worstMove(board),1000);
+}
 
   
 
-  bestMove(board){
+  worstMove(board){
     let bestScore=100;
+    
     let bestmove;
     for (let i=0;i<25;i++){
       if (board[i]==null){
-         board[i]=this.state.ai;
-         let score=miniMax1(this.state.human,this.state.ai,board,memo={},0,true);
+         board[i]=ai;
+         let score=miniMax1(human,ai,board,memo={},0,true);
          board[i]=null;
          if (score<bestScore){
           bestmove=i
@@ -39,21 +63,23 @@ class Board extends React.Component {
          }
       }
     }
-    board[bestmove]=this.state.ai;
-    setTimeout(this.handleAi(),500)
+    board[bestmove]=ai;
+    setTimeout(this.bestMove(board),1000)
 }
 
-  handleAi(i){
+
+  startAi(){
     const sq=this.state.squares.slice()
+    let i=Math.floor(Math.random()*25)
     if (sq[i]==null){
-      sq[i]=this.state.human
+      sq[i]=human;
     
       this.setState({
         squares:sq
       })
-    setTimeout(this.bestMove(sq),500)
     }
-    return;
+    setTimeout(this.worstMove(sq),2000)
+    //return;
     
   }
   renderSquare(i) {
@@ -76,13 +102,13 @@ class Board extends React.Component {
     } 
 
     return (
-      <div>
+      <div className="container">
         <div className="status">{status}</div>
         <div className="choice" id="choice">
             <h2>Choose a player</h2>
-            <button onClick={this.handleAi}>Start AI Game</button>
+            <button onClick={()=>this.startAi()}>Start AI Game</button>
         </div>
-        <button onClick={this.reset}>Reset</button>
+        <button onClick={()=>this.reset}>Reset</button>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}

@@ -5,11 +5,12 @@ import Game2 from './five'
 import Game from './fullGame'
 import AI from './aip2'
 
+
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AI/>
+    <AI />
   </React.StrictMode>,
   document.getElementById('root')
 );
