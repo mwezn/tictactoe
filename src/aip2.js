@@ -64,13 +64,15 @@ bestMove(board){
       }
     }
     board[bestmove]=ai;
-    setTimeout(this.bestMove(board),1000)
+    this.setState({squares:board})
+    let sq=this.state.squares.slice()
+    setTimeout(()=>this.bestMove(sq),1000)
 }
 
 
   startAi(){
     const sq=this.state.squares.slice()
-    let i=Math.floor(Math.random()*25)
+    let i=Math.floor(Math.random()*25) //We randomly choose an empty square for X
     if (sq[i]==null){
       sq[i]=human;
     
@@ -78,7 +80,7 @@ bestMove(board){
         squares:sq
       })
     }
-    setTimeout(this.worstMove(sq),2000)
+    setTimeout(()=>this.worstMove(sq),1000)
     //return;
     
   }
@@ -105,10 +107,10 @@ bestMove(board){
       <div className="container">
         <div className="status">{status}</div>
         <div className="choice" id="choice">
-            <h2>Choose a player</h2>
+            <h2>Computer vs Computer</h2>
             <button onClick={()=>this.startAi()}>Start AI Game</button>
         </div>
-        <button onClick={()=>this.reset}>Reset</button>
+        <button onClick={()=>this.reset()}>Reset</button>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
