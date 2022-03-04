@@ -12,7 +12,7 @@ function Square(props) {
   );
 }
 
-const initialState={squares:Array(25).fill(null),player:"",OIsNext:null,XIsNext:null}
+const initialState={squares:Array(25).fill(null),player:"X",OIsNext:null,XIsNext:null}
 
 class Board extends React.Component {
   constructor(props){
@@ -81,7 +81,7 @@ bestMove(board){
       sq[i]=human;
     
       this.setState({
-        squares:sq
+        squares:sq,player:ai
       })
     }
     setTimeout(()=>this.worstMove(sq),1000)
