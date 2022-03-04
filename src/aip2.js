@@ -12,7 +12,7 @@ function Square(props) {
   );
 }
 
-const initialState={squares:Array(25).fill(null),player:"X",OIsNext:null,XIsNext:null}
+const initialState={squares:Array(25).fill(null),player:"X",speed:1000,OIsNext:null,XIsNext:null}
 
 class Board extends React.Component {
   constructor(props){
@@ -43,7 +43,7 @@ bestMove(board){
    this.setState({squares:board, player:ai})
    let sq2=this.state.squares.slice()
   
-   const makeWorseMove=setTimeout(()=>this.worstMove(sq2),1000);
+   const makeWorseMove=setTimeout(()=>this.worstMove(sq2),this.state.speed);
    this.setState({OIsNext: makeWorseMove})
 }
 
@@ -68,7 +68,7 @@ bestMove(board){
     board[bestmove]=ai;
     this.setState({squares:board,player:human})
     let sq=this.state.squares.slice()
-    const makeBestMove= setTimeout(()=>this.bestMove(sq),1000);
+    const makeBestMove= setTimeout(()=>this.bestMove(sq),this.state.speed);
     this.setState({XIsNext: makeBestMove})
 }
 
@@ -84,7 +84,7 @@ bestMove(board){
         squares:sq,player:ai
       })
     }
-    setTimeout(()=>this.worstMove(sq),1000)
+    setTimeout(()=>this.worstMove(sq),this.state.speed)
   
     
   }
@@ -96,8 +96,14 @@ bestMove(board){
     this.setState(initialState);
     clearTimeout(this.state.XIsNext);
     clearTimeout(this.state.OIsNext)
-    
   }
+
+  speed(){
+    let speed=document.getElementById('speed').value;
+    this.setState({speed: Number(speed)})
+
+  }
+
 
   render() {
     const winner = calculateWinner(this.state.squares);
@@ -106,6 +112,8 @@ bestMove(board){
     if (winner) {
       console.log(winner);
       status = <div className={winner=="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
+      clearTimeout(this.state.XIsNext);
+      clearTimeout(this.state.OIsNext)
     } 
 
     return (
@@ -114,6 +122,14 @@ bestMove(board){
         <div className="choice" id="choice">
             <h2>Computer vs Computer: {playerTurn}'s turn</h2>
             <button onClick={()=>this.startAi()}>Start AI Game</button>
+            <select id="speed" onChange={()=>this.speed()}>
+              <option value="200">200ms</option>
+              <option value="400">400ms</option>
+              <option value="600">600ms</option>
+              <option value="800">800ms</option>
+              <option value="1000">1s</option>
+              <option value="2000">2s</option>
+            </select>
         </div>
         <button onClick={()=>this.reset()}>Reset</button>
         <div className="board-row">
