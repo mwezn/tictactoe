@@ -12,7 +12,7 @@ function Square(props) {
   );
 }
 
-const initialState={squares:Array(25).fill(null)}
+const initialState={squares:Array(25).fill(null),player:"",OIsNext:null,XIsNext:null}
 
 class Board extends React.Component {
   constructor(props){
@@ -40,9 +40,11 @@ bestMove(board){
     }
    }
    board[worst]=human;
-   this.setState({squares:board})
+   this.setState({squares:board, player:ai})
+   let sq2=this.state.squares.slice()
   
-   setTimeout(this.worstMove(board),1000);
+   const makeWorseMove=setTimeout(()=>this.worstMove(sq2),1000);
+   this.setState({OIsNext: makeWorseMove})
 }
 
   
@@ -64,13 +66,15 @@ bestMove(board){
       }
     }
     board[bestmove]=ai;
-    this.setState({squares:board})
+    this.setState({squares:board,player:human})
     let sq=this.state.squares.slice()
-    setTimeout(()=>this.bestMove(sq),1000)
+    const makeBestMove= setTimeout(()=>this.bestMove(sq),1000);
+    this.setState({XIsNext: makeBestMove})
 }
 
 
   startAi(){
+    
     const sq=this.state.squares.slice()
     let i=Math.floor(Math.random()*25) //We randomly choose an empty square for X
     if (sq[i]==null){
@@ -81,7 +85,7 @@ bestMove(board){
       })
     }
     setTimeout(()=>this.worstMove(sq),1000)
-    //return;
+  
     
   }
   renderSquare(i) {
@@ -90,14 +94,15 @@ bestMove(board){
   }
   reset(){
     this.setState(initialState);
-    let parentDiv=document.getElementById('choice');
-    parentDiv.style.display="";
+    clearTimeout(this.state.XIsNext);
+    clearTimeout(this.state.OIsNext)
     
   }
 
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
+    let playerTurn=this.state.player;
     if (winner) {
       console.log(winner);
       status = <div className={winner=="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
@@ -107,7 +112,7 @@ bestMove(board){
       <div className="container">
         <div className="status">{status}</div>
         <div className="choice" id="choice">
-            <h2>Computer vs Computer</h2>
+            <h2>Computer vs Computer: {playerTurn}'s turn</h2>
             <button onClick={()=>this.startAi()}>Start AI Game</button>
         </div>
         <button onClick={()=>this.reset()}>Reset</button>
