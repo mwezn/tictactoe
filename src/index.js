@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Game2 from './five'
-import Game from './fullGame'
+import Game from './connect4'
 import AI from './aip2'
 
 
@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AI />
+    <Game />
   </React.StrictMode>,
   document.getElementById('root')
 );

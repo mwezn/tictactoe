@@ -11,7 +11,10 @@ body {
   margin: 20px;
   
 }
-
+.connect4{
+  border: 5px solid blue;
+  border-radius: 50%;
+}
 .colourR{
   color: red;
   text-shadow: 5px 2px 4px #000
@@ -49,10 +52,35 @@ body {
   position: relative;
   left: 25vw;
 }
-
+.c4container {
+  position: relative;
+  background-color: rgb(10, 10, 102);
+  height:100%;
+  width:100%;
+  border:3px solid black;
+}
+.board-row {
+  display: flex;
+}
 .square {
   background: #aaa;
   border: 2px solid #222;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 70px;
+  width:100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+.circle {
+  background: rgb(248, 245, 245);
+  border: 2px solid #222;
+  border-radius: 100%;
   float: left;
   font-size: 50px;
   font-weight: bold;
