@@ -6,8 +6,8 @@ let initialState={squares: Array(42).fill(null)}
 
 function Square(props) {
   return (
-    <button className='circle' onClick={props.onClick}>
-      {props.value}
+    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick}>
+      
     </button>
   );
 }
@@ -41,19 +41,20 @@ class Board extends React.Component {
   }
   
     handleClick(i){
+      //alert(c4Winner(this.state.squares))
       const sq=this.state.squares.slice()
       if (sq[i]==null){
-        sq[i]=human
-      
-        this.setState({
-          squares:sq,
-          xIsNext:!this.state.xIsNext,
-        })
-      setTimeout(this.bestMove(sq),500)
-      }
-      return;
+      sq[i]=human
+    
+      this.setState({
+        squares:sq,
+
+      })
+    
+     setTimeout(this.bestMove(sq),500)
       
     }
+  }
     renderSquare(i) {
      
       return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} />;
@@ -153,6 +154,16 @@ class Board extends React.Component {
       );
     }
   }
+
+function c4Winner(squares){
+  let i=0;
+  while(i<3){
+    console.log(squares.slice(i,i+4))
+    i++;
+  }
+  console.log(squares)
+}
+
   function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],

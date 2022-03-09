@@ -92,6 +92,18 @@ body {
   padding: 0;
   text-align: center;
 }
+.Rcircle {
+  background: red;
+  border-radius:100%;
+  width:100px;
+  height:100px;
+}
+.Ycircle {
+  background-color: sandybrown;
+  border-radius: 100%;
+  width:100px;
+  height:100px;
+}
 
 .square:focus {
   outline: bold;
