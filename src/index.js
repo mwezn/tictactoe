@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Game2 from './five'
+import Game2 from './five.js'
 import Game from './connect4'
 import AI from './aip2'
 

@@ -84,12 +84,12 @@ class Board extends React.Component {
     } 
 
     return (
-      <div>
+      <div className="container">
         <div className="status">{status}</div>
         <div className="choice" id="choice">
             <h2>Choose a player</h2>
-            <button value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
-            <button value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
+            <button className="btn btn-danger" value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
+            <button className="btn btn-primary" value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
         </div>
         <button onClick={this.reset}>Reset</button>
         <div className="board-row">
