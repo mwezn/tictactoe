@@ -157,7 +157,7 @@ function calculateWinner(squares) {
     
     for (let i = 0; i < lines.length; i++) {
       var [a, b, c, d, e] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d] && squares[d]==squares[e]) {
+      if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d] && squares[d]===squares[e]) {
         return squares[a];
       }
       else if(!squares.includes(null)) return "TIE"
