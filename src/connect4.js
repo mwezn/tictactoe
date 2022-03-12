@@ -41,7 +41,7 @@ class Board extends React.Component {
   }
   
     handleClick(i){
-      //alert(c4Winner(this.state.squares))
+      alert(c4Winner(this.state.squares))
       const sq=this.state.squares.slice()
       if (sq[i]==null){
       sq[i]=human
@@ -158,13 +158,17 @@ class Board extends React.Component {
 function c4Winner(squares){
   let i=0;
   while(i<3){
-    console.log(squares.slice(i,i+4))
+    let subarr=squares.slice(i,i+4)
+    let res=subarr.map((d,i)=>i)
+    console.log(subarr)
+    console.log(res)
     i++;
   }
-  console.log(squares)
+  
 }
 
   function calculateWinner(squares) {
+    const squaresIndex=squares.map((d,i)=>i);
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
