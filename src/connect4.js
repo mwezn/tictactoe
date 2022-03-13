@@ -3,6 +3,7 @@ import './App.css';
 let human='X';
 let ai='O'
 let initialState={squares: Array(42).fill(null)}
+let memo;
 
 let combos= require('./combos')
 console.log(combos)
@@ -26,10 +27,10 @@ class Board extends React.Component {
     bestMove(board){
       let bestScore=Infinity;
       let bestmove;
-      for (let i=0;i<9;i++){
+      for (let i=0;i<42;i++){
         if (board[i]==null){
            board[i]=ai;
-           let score=miniMax1(board,0,true)
+           let score=miniMax1(human,ai,board,memo={},0,true)
            board[i]=null;
            console.log(score)
            if (score<bestScore){
@@ -45,15 +46,15 @@ class Board extends React.Component {
     handleClick(i){
   
       const sq=this.state.squares.slice()
-      alert(c4Winner(sq))
-      /*if (sq[i]==null){
+    
+    if (sq[i]==null){
       sq[i]=human
       this.setState({
         squares:sq,
 
       })
       setTimeout(this.bestMove(sq),500)
-      }*/
+      }
   }
     renderSquare(i) {
      
@@ -65,7 +66,7 @@ class Board extends React.Component {
     
   
     render() {
-      const winner = calculateWinner(this.state.squares);
+      const winner = c4Winner(this.state.squares);
       
       let status;
       if (winner) {
@@ -158,64 +159,54 @@ class Board extends React.Component {
 function c4Winner(squares){
     
     for (let i = 0; i < combos.length; i++) {
-      console.log(combos[i])
-      const [a, b, c] = combos[i];
+      for (let j=0;j<combos[i].length;j++){
+        console.log(combos[i][j])
+        const [a, b, c, d] = combos[i][j];
+        if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d]) {
+          return squares[a];
+        }
+        else if(!squares.includes(null)) return "TIE"
+
+      }
+      return null;
+     
     }
 }
-
-  function calculateWinner(squares) {
-    
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-      else if(!squares.includes(null)) return "TIE"
-    }
-    return null;
-  }
-  function miniMax1(board,depth,Max){
-    let res=calculateWinner(board);
-    if (res!==null){
-      let score=res==human?10:res==ai?-10:0;
-      return score
-    }
-    
-    if(Max){
-      let best=-Infinity
-      for (let i=0;i<9;i++){
-        if (board[i]==null){
-          board[i]=human;
-          var score=miniMax1(board,depth+1,false);
-          board[i]=null
-          best=Math.max(best,score);
-        }
-      }
-      return best
-    }
-    else{
-      let best=Infinity
-      for (let i=0;i<9;i++){
-        if(board[i]==null){
-          board[i]=ai;
-          var score=miniMax1(board,depth+1,true);
-          board[i]=null
-          best=Math.min(best,score);
-        }
-      }
-      return best
-      
-    }
-  }
+  function miniMax1(human,ai,board,memo={},depth,Max){
+    if (depth in memo) return memo[depth]
+   let res=c4Winner(board);
+   if (res!==null){
+     let score=res==human?100:res==ai?-100:0;
+     return score
+   }
+   
+   if(Max){
+     let best=-100
+     for (let i=0;i<42;i++){
+       if (board[i]==null){
+         board[i]=human;
+         var score=miniMax1(human,ai,board,memo,depth+1,false);
+         board[i]=null
+         best=Math.max(best,score);
+         memo[depth]=best
+       }
+     }
+     return memo[depth]
+   }
+   else{
+     let best=100
+     for (let i=0;i<42;i++){
+       if(board[i]==null){
+         board[i]=ai;
+         var score=miniMax1(human,ai,board,memo,depth+1,true);
+         board[i]=null
+         best=Math.min(best,score);
+         memo[depth]=best
+       }
+     }
+     return memo[depth]
+     
+   }
+ }
 
   export default Game;

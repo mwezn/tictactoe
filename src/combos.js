@@ -49,7 +49,6 @@ let res2=c.map(d=> slice4(d))
 let combos={row:res, col:res2}
 let combos2= [... res, ... res2]
 
-console.log(res,res2)
 
 module.exports= combos2;
 
