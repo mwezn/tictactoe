@@ -4,6 +4,8 @@ let human='X';
 let ai='O'
 let initialState={squares: Array(42).fill(null)}
 
+let combos= require('./combos')
+console.log(combos)
 function Square(props) {
   return (
     <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick}>
@@ -41,19 +43,17 @@ class Board extends React.Component {
   }
   
     handleClick(i){
-      alert(c4Winner(this.state.squares))
+  
       const sq=this.state.squares.slice()
-      if (sq[i]==null){
+      alert(c4Winner(sq))
+      /*if (sq[i]==null){
       sq[i]=human
-    
       this.setState({
         squares:sq,
 
       })
-    
-     setTimeout(this.bestMove(sq),500)
-      
-    }
+      setTimeout(this.bestMove(sq),500)
+      }*/
   }
     renderSquare(i) {
      
@@ -156,19 +156,15 @@ class Board extends React.Component {
   }
 
 function c4Winner(squares){
-  let i=0;
-  while(i<3){
-    let subarr=squares.slice(i,i+4)
-    let res=subarr.map((d,i)=>i)
-    console.log(subarr)
-    console.log(res)
-    i++;
-  }
-  
+    
+    for (let i = 0; i < combos.length; i++) {
+      console.log(combos[i])
+      const [a, b, c] = combos[i];
+    }
 }
 
   function calculateWinner(squares) {
-    const squaresIndex=squares.map((d,i)=>i);
+    
     const lines = [
       [0, 1, 2],
       [3, 4, 5],

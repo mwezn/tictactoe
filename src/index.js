@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game2/>
+    <Game />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -3,6 +3,17 @@ let indices=squares.map((d,i)=>i)
 
 //my algorithm for connect4 possible row/col combinations
 
+function slice4(d){
+  let arr=[]
+  let i=0;
+  while(i+4<=d.length){
+    arr.push(d.slice(i,i+4))
+    i++;
+  }
+  return arr;
+}
+
+
 const rows =()=>{
   let r=[]
   for (let j=0;j<42;j+=7){  
@@ -23,7 +34,6 @@ const cols =()=>{
       res.push(j)
     }
     c.push(res)
-    
   }
   return c
 }
@@ -31,27 +41,17 @@ const cols =()=>{
 /*console.log(cols());
 let combos={row:[... rows()], col:[... cols()]}
 console.log(combos)*/
-let row=[]
+
 let r=rows();
-r.map(d=>{
-  let i=0;
-  while(i+4<=d.length){
-    row.push(d.slice(i,i+4))
-    i++;
-  }
-})
-let column=[]
+let res=r.map(d=> slice4(d))
 let c=cols();
-c.map(d=>{
-  let i=0;
-  while(i+4<=d.length){
-    column.push(d.slice(i,i+4))
-    i++;
-  }
-})
+let res2=c.map(d=> slice4(d))
+let combos={row:res, col:res2}
+let combos2= [... res, ... res2]
 
+console.log(res,res2)
 
-console.log(row,column)
+module.exports= combos2;
 
 
 
