@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import Nav from './Nav'
 
 let memo;
 function Square(props) {
@@ -205,10 +206,13 @@ function calculateWinner(squares) {
 class Game extends React.Component {
   render() {
     return (
+      <div>
+        <Nav></Nav>
       <div className="game">
         <div className="game-board">
           <Board />
         </div>
+      </div>
       </div>
     );
   }

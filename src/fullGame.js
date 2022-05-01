@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Nav from './Nav'
 
 function Square(props) {
   return (
@@ -122,10 +123,13 @@ class Board extends React.Component {
 class Game extends React.Component {
   render() {
     return (
+      <div>
+        <Nav></Nav>
       <div className="game">
         <div className="game-board">
           <Board />
         </div>
+      </div>
       </div>
     );
   }
