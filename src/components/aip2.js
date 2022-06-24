@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import Nav from './Nav'
 let human="X"
 let ai="O"

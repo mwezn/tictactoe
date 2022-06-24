@@ -1,12 +1,10 @@
 import React from 'react';
-import './App.css';
 import Nav from './Nav'
 
 let human='X';
 let ai='O'
 let initialState={squares: Array(42).fill(null)}
 let memo;
-
 let combos= require('./combos')
 console.log(combos)
 function Square(props) {

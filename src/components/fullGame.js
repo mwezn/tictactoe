@@ -1,9 +1,6 @@
 import React from 'react';
-import './App.css';
 import Nav from './Nav'
 
-let human="X";
-let ai="O"
 function Square(props) {
   return (
     <button className={props.value=="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
@@ -13,8 +10,7 @@ function Square(props) {
 }
 
 
-const initialState={squares:Array(9).fill(null),
-      xIsNext: true,}
+const initialState={squares:Array(9).fill(null),human:"",ai:""}
 
 class Board extends React.Component {
   constructor(props){
@@ -23,15 +19,33 @@ class Board extends React.Component {
     
   }
   reset=this.reset.bind(this); //This is needed for reset
-  
+  choosePlayer(e){
+      let player=e.target.value;
+      console.log(player)
+      e.target.value=="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
+      
+      
+      let parentDiv=document.getElementById('choice')
+      console.log(parentDiv)
+      parentDiv.style.display="none";
+      let btn=document.getElementById('resetbtn')
+      btn.style.display="";
+  }
+  reset(){
+    this.setState(initialState);
+    let parentDiv=document.getElementById('choice')
+    parentDiv.style.display="";
+    let btn=document.getElementById('resetbtn')
+    btn.style.display="none";
+  }
 
   bestMove(board){
     let bestScore=Infinity;
     let bestmove;
     for (let i=0;i<9;i++){
       if (board[i]==null){
-         board[i]=ai;
-         let score=miniMax1(board,0,true)
+         board[i]=this.state.ai;
+         let score=miniMax1(this.state.human,this.state.ai,board,0,true)
          board[i]=null;
          console.log(score)
          if (score<bestScore){
@@ -41,17 +55,17 @@ class Board extends React.Component {
          }
       }
     }
-    board[bestmove]=ai;
+    board[bestmove]=this.state.ai;
 }
 
   handleClick(i){
     const sq=this.state.squares.slice()
     if (sq[i]==null){
-      sq[i]=human
+      sq[i]=this.state.human
     
       this.setState({
         squares:sq,
-        xIsNext:!this.state.xIsNext,
+        //xIsNext:!this.state.xIsNext,
       })
     setTimeout(this.bestMove(sq),500)
     }
@@ -62,9 +76,6 @@ class Board extends React.Component {
    
     return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} />;
   }
-  reset(){
-    this.setState(initialState);
-  }
  
 
   render() {
@@ -73,13 +84,20 @@ class Board extends React.Component {
     if (winner) {
       console.log(winner);
       status = <div className={winner=="X"?"colourRWin":winner=="O"?"colourBWin":"colourG"}>Winner!{winner}</div>
-    } 
+    }
+    let player=this.state.human!==""?<h2>You are {this.state.human}</h2>:<h2>Choose a player</h2>
 
     return (
       <div className="container">
+        {player}
         
         <div className="status">{status}</div>
-        <button onClick={this.reset}>Reset</button>
+        <div className="choice" id="choice">
+            
+            <button className="btn btn-danger" value="X" onClick={(e)=>this.choosePlayer(e)}>X</button>
+            <button className="btn btn-primary" value="O" onClick={(e)=>this.choosePlayer(e)}>O</button>
+        </div>
+        <button id="resetbtn" onClick={this.reset}>Reset</button>
         <div>Click on a square:</div>
         <div className="board-row">
           {this.renderSquare(0)}
@@ -135,7 +153,7 @@ function calculateWinner(squares) {
     }
     return null;
   }
- function miniMax1(board,depth,Max){
+ function miniMax1(human,ai,board,depth,Max){
   let res=calculateWinner(board);
   if (res!==null){
     let score=res==human?10:res==ai?-10:0;
@@ -147,7 +165,7 @@ function calculateWinner(squares) {
     for (let i=0;i<9;i++){
       if (board[i]==null){
         board[i]=human;
-        var score=miniMax1(board,depth+1,false);
+        var score=miniMax1(human,ai,board,depth+1,false);
         board[i]=null
         best=Math.max(best,score);
       }
@@ -159,7 +177,7 @@ function calculateWinner(squares) {
     for (let i=0;i<9;i++){
       if(board[i]==null){
         board[i]=ai;
-        var score=miniMax1(board,depth+1,true);
+        score=miniMax1(human,ai,board,depth+1,true);
         board[i]=null
         best=Math.min(best,score);
       }
