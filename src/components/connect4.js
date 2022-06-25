@@ -5,8 +5,11 @@ let human='X';
 let ai='O'
 let initialState={squares: Array(42).fill(null)}
 let memo;
-let combos= require('./combos')
-console.log(combos)
+const {mycombos, winningArrays}= require('./combos')
+
+console.log(mycombos,winningArrays)
+
+
 function Square(props) {
   return (
     <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick}>
@@ -30,7 +33,7 @@ class Board extends React.Component {
       for (let i=0;i<42;i++){
         if (board[i]==null){
            board[i]=ai;
-           let score=miniMax1(human,ai,board,memo={},0,true)
+           let score=miniMax1(human,ai,board,memo={},1,true)
            board[i]=null;
            console.log(score)
            if (score<bestScore){
@@ -161,10 +164,11 @@ class Board extends React.Component {
 
 function c4Winner(squares){
     
-    for (let i = 0; i < combos.length; i++) {
-      for (let j=0;j<combos[i].length;j++){
-        console.log(combos[i][j])
-        const [a, b, c, d] = combos[i][j];
+    for (let i = 0; i < winningArrays.length; i++) {
+        let a=winningArrays[i][0]
+        let b=winningArrays[i][1]
+        let c=winningArrays[i][2]
+        let d=winningArrays[i][3]
         if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d]) {
           return squares[a];
         }
@@ -172,8 +176,6 @@ function c4Winner(squares){
 
       }
       return null;
-     
-    }
 }
   function miniMax1(human,ai,board,memo={},depth,Max){
     if (depth in memo) return memo[depth]
@@ -188,7 +190,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if (board[i]==null){
          board[i]=human;
-         var score=miniMax1(human,ai,board,memo,depth+1,false);
+         var score=miniMax1(human,ai,board,memo,depth-1,false);
          board[i]=null
          best=Math.max(best,score);
          memo[depth]=best
@@ -201,7 +203,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if(board[i]==null){
          board[i]=ai;
-         var score=miniMax1(human,ai,board,memo,depth+1,true);
+         var score=miniMax1(human,ai,board,memo,depth-1,true);
          board[i]=null
          best=Math.min(best,score);
          memo[depth]=best
