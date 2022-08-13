@@ -174,11 +174,12 @@ function c4Winner(squares){
         }
         else if(!squares.includes(null)) return "TIE"
 
-      }
+    }
       return null;
 }
   function miniMax1(human,ai,board,memo={},depth,Max){
     if (depth in memo) return memo[depth]
+   
    let res=c4Winner(board);
    if (res!==null){
      let score=res==human?100:res==ai?-100:0;
