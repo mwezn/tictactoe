@@ -1,8 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import AI from './components/aip2'
-import Five from './components/five.js'
+
+
 import Three from './components/fullGame'
+import Five from './components/five.js'
+import AI from './components/aip2'
 import Con4 from './components/connect4'
 
 

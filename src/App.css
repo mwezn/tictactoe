@@ -23,6 +23,12 @@ body {
   color: blue;
   text-shadow: 5px 5px 4px #000
 }
+.toprow {
+  border:1px solid black;
+  width: 100px;
+  height: 100px;
+  display: flex;
+}
 
 @keyframes spin { 
   from { 

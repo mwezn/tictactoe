@@ -12,11 +12,19 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick}>
+    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick} onMouseEnter={props.onHover}>
       
     </button>
   );
 }
+
+function Square2(props) {
+  return (
+    <div id={props.id}>
+    </div>
+  );
+}
+
 
 class Board extends React.Component {
     constructor(props){
@@ -47,22 +55,31 @@ class Board extends React.Component {
   }
   
     handleClick(i){
-  
       const sq=this.state.squares.slice()
-    
-    if (sq[i]==null){
-      sq[i]=human
-      this.setState({
-        squares:sq,
-
-      })
+     if (sq[i]==null){
+        sq[i]=human
+        this.setState({
+          squares:sq,
+        })
       setTimeout(this.bestMove(sq),500)
       }
   }
+    handleHover(i) {
+       console.log(`Hovered over square number: ${i} & this is ${i%7}mod7`)
+    }
     renderSquare(i) {
      
-      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} />;
+      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} />;
     }
+
+    renderTopRow(){
+      let toprow=[]
+      for (let i=0;i<6;i++){
+        toprow.push(<Square2 id={i}></Square2>)
+      }
+      return toprow
+    }
+    
     reset(){
       this.setState(initialState);
     }
@@ -86,6 +103,9 @@ class Board extends React.Component {
           <button onClick={this.reset}>Reset</button>
           <div>Click on a square:</div>
           <div className="c4container">
+          <div className='toprow'>
+            {this.renderTopRow()}
+          </div>
           <div className='board-row'>
             {this.renderSquare(0)}
             {this.renderSquare(1)}
@@ -191,7 +211,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if (board[i]==null){
          board[i]=human;
-         var score=miniMax1(human,ai,board,memo,depth-1,false);
+         var score=miniMax1(human,ai,board,memo,depth+1,false);
          board[i]=null
          best=Math.max(best,score);
          memo[depth]=best
@@ -204,7 +224,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if(board[i]==null){
          board[i]=ai;
-         var score=miniMax1(human,ai,board,memo,depth-1,true);
+         var score=miniMax1(human,ai,board,memo,depth+1,true);
          board[i]=null
          best=Math.min(best,score);
          memo[depth]=best
