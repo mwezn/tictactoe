@@ -12,7 +12,7 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick} onMouseEnter={props.onHover}>
+    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut}>
       
     </button>
   );
@@ -20,7 +20,7 @@ function Square(props) {
 
 function Square2(props) {
   return (
-    <div id={props.id}>
+    <div className="topsquares" id={props.id}>
     </div>
   );
 }
@@ -66,15 +66,24 @@ class Board extends React.Component {
   }
     handleHover(i) {
        console.log(`Hovered over square number: ${i} & this is ${i%7}mod7`)
+       let startTile=document.getElementById(i%7)
+       console.log(startTile)
+       startTile.classList.toggle('active')
+    }
+    handleMouseOut(i){
+       let startTile=document.getElementById(i%7)
+       console.log(startTile)
+       startTile.classList.toggle('active')
+
     }
     renderSquare(i) {
      
-      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} />;
+      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)}/>;
     }
 
     renderTopRow(){
       let toprow=[]
-      for (let i=0;i<6;i++){
+      for (let i=0;i<7;i++){
         toprow.push(<Square2 id={i}></Square2>)
       }
       return toprow
