@@ -39,9 +39,9 @@ class Board extends React.Component {
       let bestScore=Infinity;
       let bestmove;
       for (let i=0;i<42;i++){
-        if (board[i]==null){
+        if (board[i]==null && board[i+7]!==null){
            board[i]=ai;
-           let score=miniMax1(human,ai,board,memo={},1,true)
+           let score=miniMax1(human,ai,board,memo={},0,true)
            board[i]=null;
            console.log(score)
            if (score<bestScore){
@@ -56,12 +56,15 @@ class Board extends React.Component {
   
     handleClick(i){
       const sq=this.state.squares.slice()
-     if (sq[i]==null){
+     if (sq[i]==null && sq[i+7]!==null){
         sq[i]=human
         this.setState({
           squares:sq,
         })
       setTimeout(this.bestMove(sq),500)
+      }
+      else {
+        alert("Cant go Here")
       }
   }
     handleHover(i) {
