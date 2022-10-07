@@ -221,7 +221,7 @@ function c4Winner(squares){
    if(Max){
      let best=-100
      for (let i=0;i<42;i++){
-       if (board[i]==null){
+       if (board[i]==null && board[i+7]!==null){
          board[i]=human;
          var score=miniMax1(human,ai,board,memo,depth+1,false);
          board[i]=null
@@ -234,7 +234,7 @@ function c4Winner(squares){
    else{
      let best=100
      for (let i=0;i<42;i++){
-       if(board[i]==null){
+       if(board[i]==null && board[i+7]!==null){
          board[i]=ai;
          var score=miniMax1(human,ai,board,memo,depth+1,true);
          board[i]=null

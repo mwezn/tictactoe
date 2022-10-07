@@ -70,6 +70,7 @@ body {
 .container {
   position: relative;
   left: 25vw;
+  width:auto;
 }
 .c4container {
   position: relative;
