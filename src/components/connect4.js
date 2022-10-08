@@ -12,7 +12,7 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut}>
+    <button id={props.id} className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut}>
       
     </button>
   );
@@ -56,6 +56,15 @@ class Board extends React.Component {
   
     handleClick(i){
       const sq=this.state.squares.slice()
+      let top=i%7;
+      let n=top;
+      while (n< top +35 ){ //Thinking how to use this to add the drop pieces CSS effect (gravity)
+        console.log(n)
+        let drop=document.getElementById(`square${n}`)
+        drop.classList.toggle('active')//animation class instead??
+        n+=7;
+      }
+      
      if (sq[i]==null && sq[i+7]!==null){
         sq[i]=human
         this.setState({
@@ -81,7 +90,7 @@ class Board extends React.Component {
     }
     renderSquare(i) {
      
-      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)}/>;
+      return <Square id={`square`+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)}/>;
     }
 
     renderTopRow(){
