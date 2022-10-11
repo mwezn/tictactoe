@@ -23,6 +23,10 @@ function Square2(props) {
     <div className="topsquares" id={props.id}>
     </div>
   );
+  }
+
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 
@@ -54,18 +58,23 @@ class Board extends React.Component {
       board[bestmove]=ai;
   }
   
-    handleClick(i){
+    async handleClick(i){
       const sq=this.state.squares.slice()
       let top=i%7;
       let n=top;
-      while (n< top +35 ){ //Thinking how to use this to add the drop pieces CSS effect (gravity)
-        console.log(n)
+     
+      /*for (let n=top;n<=top+35;n+=7){
         let drop=document.getElementById(`square${n}`)
-        drop.classList.toggle('active')//animation class instead??
-        n+=7;
-      }
-      
-     if (sq[i]==null && sq[i+7]!==null){
+        let prevdrop=document.getElementById(`square${n-7}`)
+        console.log(drop)
+        if (prevdrop) prevdrop.classList.toggle('fall')
+        drop.classList.toggle('fall')
+          //animation class instead??
+          
+
+      }*/
+
+      if (sq[i]==null && sq[i+7]!==null){
         sq[i]=human
         this.setState({
           squares:sq,
@@ -75,6 +84,18 @@ class Board extends React.Component {
       else {
         alert("Cant go Here")
       }
+      
+      while(n<top+42){
+        
+        let drop=document.getElementById(`square${n}`)
+        let prevdrop=document.getElementById(`square${n-7}`)
+        if (prevdrop) prevdrop.classList.remove('fall')
+        drop.classList.add('fall')
+        await sleep(100)
+        n+=7;
+      }
+      
+     
   }
     handleHover(i) {
        console.log(`Hovered over square number: ${i} & this is ${i%7}mod7`)

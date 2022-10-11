@@ -48,14 +48,34 @@ body {
   width:100px;
   height:100px;
   background-color: red;
+  position:relative;
+  top:0;
+  animation: drop .3s ;
 
 }
 
-@keyframes spin { 
-  from { 
-      transform: rotateY(0deg); 
-  } to { 
-      transform: rotateY(360deg); 
+@keyframes drop {
+  from {
+    top:0;
+  }
+  to {
+    top:100px;
+  }
+}
+.playable.fall {
+
+  border-radius:50px;
+  width:100px;
+  height:100px;
+  background-color: red;
+}
+
+@keyframes fall-animation {
+  from {
+      transform: translateY(-100px);
+  }
+  to {
+      transform: translateY(0);
   }
 }
 
