@@ -75,25 +75,31 @@ class Board extends React.Component {
       }*/
 
       if (sq[i]==null && sq[i+7]!==null){
+        while(n<top+42){
+        
+          let drop=document.getElementById(`square${n}`)
+          let prevdrop=document.getElementById(`square${n-7}`)
+          if (prevdrop) prevdrop.classList.remove('fall')
+          drop.classList.add('fall')
+          await sleep(50)
+          n+=7;
+        }
         sq[i]=human
+        this.bestMove(sq)
         this.setState({
           squares:sq,
         })
-      setTimeout(this.bestMove(sq),500)
+        console.log(this.state.squares,sq)
+        //setTimeout(()=>this.bestMove(this.state.squares),500)
+        
+        
+      
       }
       else {
         alert("Cant go Here")
       }
       
-      while(n<top+42){
-        
-        let drop=document.getElementById(`square${n}`)
-        let prevdrop=document.getElementById(`square${n-7}`)
-        if (prevdrop) prevdrop.classList.remove('fall')
-        drop.classList.add('fall')
-        await sleep(100)
-        n+=7;
-      }
+     
       
      
   }
