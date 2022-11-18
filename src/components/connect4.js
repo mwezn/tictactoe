@@ -62,21 +62,9 @@ class Board extends React.Component {
       const sq=this.state.squares.slice()
       let top=i%7;
       let n=top;
-     
-      /*for (let n=top;n<=top+35;n+=7){
-        let drop=document.getElementById(`square${n}`)
-        let prevdrop=document.getElementById(`square${n-7}`)
-        console.log(drop)
-        if (prevdrop) prevdrop.classList.toggle('fall')
-        drop.classList.toggle('fall')
-          //animation class instead??
-          
-
-      }*/
-
+      
       if (sq[i]==null && sq[i+7]!==null){
-        while(n<top+42){
-        
+        while(n<top+i){
           let drop=document.getElementById(`square${n}`)
           let prevdrop=document.getElementById(`square${n-7}`)
           if (prevdrop) prevdrop.classList.remove('fall')
@@ -89,11 +77,6 @@ class Board extends React.Component {
         this.setState({
           squares:sq,
         })
-        console.log(this.state.squares,sq)
-        //setTimeout(()=>this.bestMove(this.state.squares),500)
-        
-        
-      
       }
       else {
         alert("Cant go Here")
