@@ -6,7 +6,7 @@ let ai="O"
 let memo;
 function Square(props) {
   return (
-    <button className={props.value=="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
+    <button className={props.value==="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -111,7 +111,7 @@ bestMove(board){
     let playerTurn=this.state.player;
     if (winner) {
       console.log(winner);
-      status = <div className={winner=="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
+      status = <div className={winner==="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
       clearTimeout(this.state.XIsNext);
       clearTimeout(this.state.OIsNext)
     } 
@@ -197,7 +197,7 @@ function calculateWinner(squares) {
     
     for (let i = 0; i < lines.length; i++) {
       var [a, b, c, d, e] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d] && squares[d]==squares[e]) {
+      if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d] && squares[d]===squares[e]) {
         return squares[a];
       }
       else if(!squares.includes(null)) return "TIE"
@@ -208,7 +208,7 @@ function calculateWinner(squares) {
    if (depth in memo) return memo[depth]
   let res=calculateWinner(board);
   if (res!==null){
-    let score=res==human?100:res==ai?-100:0;
+    let score=res===human?100:res===ai?-100:0;
     return score
   }
   
@@ -230,7 +230,7 @@ function calculateWinner(squares) {
     for (let i=0;i<25;i++){
       if(board[i]==null){
         board[i]=ai;
-        var score=miniMax1(human,ai,board,memo,depth+1,true);
+        let score=miniMax1(human,ai,board,memo,depth+1,true);
         board[i]=null
         best=Math.min(best,score);
         memo[depth]=best

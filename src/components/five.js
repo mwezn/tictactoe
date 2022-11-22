@@ -4,7 +4,7 @@ import Nav from './Nav'
 let memo;
 function Square(props) {
   return (
-    <button className={props.value=="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
+    <button className={props.value==="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -23,7 +23,7 @@ class Board extends React.Component {
   choosePlayer(e){
     let player=e.target.value;
     console.log(player)
-    e.target.value=="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
+    e.target.value==="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
     let parentDiv=document.getElementById('choice')
     console.log(parentDiv)
     parentDiv.style.display="none";
@@ -80,7 +80,7 @@ class Board extends React.Component {
     let status;
     if (winner) {
       console.log(winner);
-      status = <div className={winner=="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
+      status = <div className={winner==="X"?"colourRWin":"colourBWin"}>Winner!{winner}</div>
     } 
 
     return (
@@ -169,7 +169,7 @@ function calculateWinner(squares) {
    if (depth in memo) return memo[depth]
   let res=calculateWinner(board);
   if (res!==null){
-    let score=res==human?100:res==ai?-100:0;
+    let score=res===human?100:res===ai?-100:0;
     return score
   }
   
@@ -191,7 +191,7 @@ function calculateWinner(squares) {
     for (let i=0;i<25;i++){
       if(board[i]==null){
         board[i]=ai;
-        var score=miniMax1(human,ai,board,memo,depth+1,true);
+        let score=miniMax1(human,ai,board,memo,depth+1,true);
         board[i]=null
         best=Math.min(best,score);
         memo[depth]=best

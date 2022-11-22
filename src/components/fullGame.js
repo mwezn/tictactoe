@@ -3,7 +3,7 @@ import Nav from './Nav'
 
 function Square(props) {
   return (
-    <button className={props.value=="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
+    <button className={props.value==="X"?"square colourR ": "square colourB"} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -22,7 +22,7 @@ class Board extends React.Component {
   choosePlayer(e){
       let player=e.target.value;
       console.log(player)
-      e.target.value=="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
+      e.target.value==="X"?this.setState({human:"X",ai:"O"}):this.setState({human:"O",ai:"X"})
       
       
       let parentDiv=document.getElementById('choice')
@@ -83,7 +83,7 @@ class Board extends React.Component {
     let status;
     if (winner) {
       console.log(winner);
-      status = <div className={winner=="X"?"colourRWin":winner=="O"?"colourBWin":"colourG"}>Winner!{winner}</div>
+      status = <div className={winner==="X"?"colourRWin":winner==="O"?"colourBWin":"colourG"}>Winner!{winner}</div>
     }
     let player=this.state.human!==""?<h2>You are {this.state.human}</h2>:<h2>Choose a player</h2>
 
@@ -156,7 +156,7 @@ function calculateWinner(squares) {
  function miniMax1(human,ai,board,depth,Max){
   let res=calculateWinner(board);
   if (res!==null){
-    let score=res==human?10:res==ai?-10:0;
+    let score=res===human?10:res===ai?-10:0;
     return score
   }
   

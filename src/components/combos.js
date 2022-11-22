@@ -1,5 +1,3 @@
-let squares= Array(42).fill(null)
-let indices=squares.map((d,i)=>i)
 
 //my algorithm for connect4 possible row/col combinations
 
@@ -118,7 +116,7 @@ let r=rows();
 let res=r.map(d=> slice4(d))
 let c=cols();
 let res2=c.map(d=> slice4(d))
-let combos={row:res, col:res2}
+//let combos={row:res, col:res2}
 let mycombos= [...res, ...res2]
 console.log(winningArrays.length)
 

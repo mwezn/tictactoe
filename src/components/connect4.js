@@ -64,7 +64,7 @@ class Board extends React.Component {
       let n=top;
       
       if (sq[i]==null && sq[i+7]!==null){
-        while(n<top+i){
+        while(n<=top+i){
           let drop=document.getElementById(`square${n}`)
           let prevdrop=document.getElementById(`square${n-7}`)
           if (prevdrop) prevdrop.classList.remove('fall')
@@ -73,10 +73,14 @@ class Board extends React.Component {
           n+=7;
         }
         sq[i]=human
+        
+        
         this.bestMove(sq)
         this.setState({
-          squares:sq,
+          squares:sq, 
         })
+        
+        
       }
       else {
         alert("Cant go Here")
