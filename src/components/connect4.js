@@ -66,6 +66,9 @@ class Board extends React.Component {
         n+=7;
       }
       board[bestmove]=ai;
+      this.setState({
+        squares:board, 
+      })
   }
   
     async handleClick(i){

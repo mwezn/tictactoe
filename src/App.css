@@ -111,14 +111,17 @@ body {
 }
 .container {
   position: relative;
+  display: block;
   left: 25vw;
-  width:auto;
+  max-width:90%;
+  height:120vh;
+  overflow: hidden;
+  border:2px solid blue;
+  
 }
 .c4container {
   position: relative;
   background-color: rgb(10, 10, 102);
-  height:100%;
-  width:100%;
   border:3px solid black;
 }
 .board-row {
