@@ -51,7 +51,16 @@ body {
   position:relative;
   top:0;
   animation: drop .3s ;
-
+}
+.playable.active2 {
+  border:1px solid rgb(248, 245, 245);
+  border-radius:50px;
+  width:100px;
+  height:100px;
+  background-color: rgb(248, 245, 245);
+  position:relative;
+  top:0;
+  animation: drop .3s ;
 }
 
 @keyframes drop {
@@ -63,11 +72,16 @@ body {
   }
 }
 .playable.fall {
-
   border-radius:50px;
   width:100px;
   height:100px;
   background-color: red;
+}
+.playable.fall2 {
+  border-radius:50px;
+  width:100px;
+  height:100px;
+  background-color: sandybrown;
 }
 
 @keyframes fall-animation {

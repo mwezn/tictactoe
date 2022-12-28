@@ -39,7 +39,7 @@ class Board extends React.Component {
     reset=this.reset.bind(this); //This is needed for reset
     
   
-    bestMove(board){
+    async bestMove(board){
       let bestScore=Infinity;
       let bestmove;
       for (let i=0;i<42;i++){
@@ -54,6 +54,16 @@ class Board extends React.Component {
             
            }
         }
+      }
+      let top=bestmove%7;
+      let n=top;
+      while(n<=top+bestmove){
+        let drop=document.getElementById(`square${n}`)
+        let prevdrop=document.getElementById(`square${n-7}`)
+        if (prevdrop) prevdrop.classList.remove('fall2')
+        drop.classList.add('fall2')
+        await sleep(50)
+        n+=7;
       }
       board[bestmove]=ai;
   }
