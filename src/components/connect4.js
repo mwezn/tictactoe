@@ -12,7 +12,7 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button id={props.id} className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut}>
+    <button id={props.id} className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut} onTouchStart={props.onTouch}>
       
     </button>
   );
@@ -37,6 +37,7 @@ class Board extends React.Component {
       
     }
     reset=this.reset.bind(this); //This is needed for reset
+  
     
   
     async bestMove(board){
@@ -115,9 +116,46 @@ class Board extends React.Component {
        startTile.classList.toggle('active')
 
     }
+
+
+    async OnTouchStart(i){
+      const sq=this.state.squares.slice()
+      let top=i%7;
+      let n=top;
+      
+      if (sq[i]==null && sq[i+7]!==null){
+        while(n<=top+i){
+          let drop=document.getElementById(`square${n}`)
+          let prevdrop=document.getElementById(`square${n-7}`)
+          if (prevdrop) prevdrop.classList.remove('fall')
+          drop.classList.add('fall')
+          await sleep(50)
+          n+=7;
+        }
+        sq[i]=human
+        
+        
+        this.bestMove(sq)
+        this.setState({
+          squares:sq, 
+        })
+        
+        
+      }
+      else {
+        alert("Cant go Here")
+      }
+    }
+    /*OnTouchEnd(i){
+      let startTile=document.getElementById(i%7)
+      alert("screen touch end!")
+      startTile.classList.toggle('active')
+   }*/
+
+
     renderSquare(i) {
      
-      return <Square id={`square`+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)}/>;
+      return <Square id={`square`+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)} onTouch={()=>this.OnTouchStart(i)} touchEnd={()=>this.OnTouchEnd(i)}/>;
     }
 
     renderTopRow(){
@@ -246,6 +284,8 @@ function c4Winner(squares){
       return null;
 }
   function miniMax1(human,ai,board,memo={},depth,Max){
+    
+      
     if (depth in memo) return memo[depth]
    
    let res=c4Winner(board);
@@ -253,6 +293,8 @@ function c4Winner(squares){
      let score=res==human?100:res==ai?-100:0;
      return score
    }
+   
+  
    
    if(Max){
      let best=-100
@@ -263,6 +305,7 @@ function c4Winner(squares){
          board[i]=null
          best=Math.max(best,score);
          memo[depth]=best
+         
        }
      }
      return memo[depth]
@@ -272,15 +315,16 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if(board[i]==null && board[i+7]!==null){
          board[i]=ai;
-         var score=miniMax1(human,ai,board,memo,depth+1,true);
+         var score=miniMax1(human,ai,board,memo,depth,true);
          board[i]=null
          best=Math.min(best,score);
          memo[depth]=best
+
        }
      }
      return memo[depth]
      
    }
- }
+  }
 
   export default Game;
