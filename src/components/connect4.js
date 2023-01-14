@@ -12,7 +12,7 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button id={props.id} className={props.value=="X"?"circle Rcircle ":props.value=="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut} onTouchStart={props.onTouch}>
+    <button id={props.id} className={props.value==="X"?"circle Rcircle ":props.value==="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut} onTouchStart={props.onTouch}>
       
     </button>
   );
@@ -39,7 +39,7 @@ class Board extends React.Component {
     reset=this.reset.bind(this); //This is needed for reset
   
     
-  
+    
     async bestMove(board){
       let bestScore=Infinity;
       let bestmove;
@@ -155,13 +155,13 @@ class Board extends React.Component {
 
     renderSquare(i) {
      
-      return <Square id={`square`+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)} onTouch={()=>this.OnTouchStart(i)} touchEnd={()=>this.OnTouchEnd(i)}/>;
+      return <Square id={`square`+i} key={'square'+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)} onTouch={()=>this.OnTouchStart(i)} touchEnd={()=>this.OnTouchEnd(i)}/>
     }
 
     renderTopRow(){
       let toprow=[]
       for (let i=0;i<7;i++){
-        toprow.push(<Square2 id={i}></Square2>)
+        toprow.push(<Square2 id={i} key={i}></Square2>)
       }
       return toprow
     }
