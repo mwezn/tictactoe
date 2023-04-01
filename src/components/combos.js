@@ -118,7 +118,89 @@ let c=cols();
 let res2=c.map(d=> slice4(d))
 //let combos={row:res, col:res2}
 let mycombos= [...res, ...res2]
-console.log(winningArrays.length)
+
+
+//This implementation of minimax is a response from chatGPT
+/*function minimax(board, depth, isMaximizing) {
+  let result = checkWin(board);
+  if (result !== null) {
+    return result;
+  }
+  if (depth === 0) {
+    return 0;
+  }
+  if (isMaximizing) {
+    let maxEval = -Infinity;
+    for (let i = 0; i < 7; i++) {
+      if (!board[i][5]) {
+        board[i][5] = 1;
+        let eval = minimax(board, depth - 1, false);
+        board[i][5] = 0;
+        maxEval = Math.max(maxEval, eval);
+      }
+    }
+    return maxEval;
+  } else {
+    let minEval = Infinity;
+    for (let i = 0; i < 7; i++) {
+      if (!board[i][5]) {
+        board[i][5] = 2;
+        let eval = minimax(board, depth - 1, true);
+        board[i][5] = 0;
+        minEval = Math.min(minEval, eval);
+      }
+    }
+    return minEval;
+  }
+}
+
+function checkWin(board) {
+  // Check rows
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 4; j++) {
+      let player = board[j][i];
+      if (player &&
+          player === board[j + 1][i] &&
+          player === board[j + 2][i] &&
+          player === board[j + 3][i]) {
+        return player;
+      }
+    }
+  }
+  // Check columns
+  for (let i = 0; i < 7; i++) {
+    for (let j = 0; j < 3; j++) {
+      let player = board[i][j];
+      if (player &&
+          player === board[i][j + 1] &&
+          player === board[i][j + 2] &&
+          player === board[i][j + 3]) {
+        return player;
+      }
+    }
+  }
+  // Check diagonals
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 3; j++) {
+      let player = board[i][j];
+      if (player &&
+          player === board[i + 1][j + 1] &&
+          player === board[i + 2][j + 2] &&
+          player === board[i + 3][j + 3]) {
+        return player;
+      }
+      player = board[6 - i][j];
+      if (player &&
+          player === board[5 - i][j + 1] &&
+          player === board[4 - i][j + 2] &&
+          player === board[3 - i][j + 3]) {
+        return player;
+      }
+    }
+  }
+  return null;
+}*/
+
 
 
 

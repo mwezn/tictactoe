@@ -3,7 +3,7 @@ import Nav from './Nav'
 
 let human='X';
 let ai='O'
-let initialState={squares: Array(42).fill(null)}
+let initialState={squares: Array(42).fill(null),gameComplete:false}
 let memo;
 const {mycombos, winningArrays}= require('./combos')
 
@@ -12,7 +12,7 @@ console.log(mycombos,winningArrays)
 
 function Square(props) {
   return (
-    <button id={props.id} className={props.value==="X"?"circle Rcircle ":props.value==="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut} onTouchStart={props.onTouch}>
+    <button id={props.id} className={props.value==="X"?"circle Rcircle ":props.value==="O"?"circle Ycircle":"circle playable"} onClick={props.onClick} onMouseEnter={props.onHover} onMouseOut={props.onMouseOut} onTouchStart={props.onTouch} onTouchEnter={props.onTouchEnter}>
       
     </button>
   );
@@ -41,12 +41,13 @@ class Board extends React.Component {
     
     
     async bestMove(board){
+      
       let bestScore=Infinity;
       let bestmove;
       for (let i=0;i<42;i++){
         if (board[i]==null && board[i+7]!==null){
            board[i]=ai;
-           let score=miniMax1(human,ai,board,memo={},0,true)
+           let score=miniMax1(human,ai,board,memo={},3,true)
            board[i]=null;
            console.log(score)
            if (score<bestScore){
@@ -76,8 +77,13 @@ class Board extends React.Component {
       const sq=this.state.squares.slice()
       let top=i%7;
       let n=top;
+
+      if(this.state.gameComplete){
+        return
+      }
       
       if (sq[i]==null && sq[i+7]!==null){
+        
         while(n<=top+i){
           let drop=document.getElementById(`square${n}`)
           let prevdrop=document.getElementById(`square${n-7}`)
@@ -105,6 +111,7 @@ class Board extends React.Component {
      
   }
     handleHover(i) {
+      
        console.log(`Hovered over square number: ${i} & this is ${i%7}mod7`)
        let startTile=document.getElementById(i%7)
        console.log(startTile)
@@ -118,7 +125,8 @@ class Board extends React.Component {
     }
 
 
-    async OnTouchStart(i){
+    async OnTouchStart(e,i){
+      e.preventDefault();
       const sq=this.state.squares.slice()
       let top=i%7;
       let n=top;
@@ -151,11 +159,15 @@ class Board extends React.Component {
       alert("screen touch end!")
       startTile.classList.toggle('active')
    }*/
+   onFingMove(i){
+     alert('moved to '+i)
+     return null;
+   }
 
 
     renderSquare(i) {
      
-      return <Square id={`square`+i} key={'square'+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)} onTouch={()=>this.OnTouchStart(i)} touchEnd={()=>this.OnTouchEnd(i)}/>
+      return <Square id={`square`+i} key={'square'+i} value={this.state.squares[i]} onClick={()=>this.handleClick(i)} onHover={()=>this.handleHover(i)} onMouseOut={()=>this.handleMouseOut(i)} onTouch={(e)=>this.OnTouchStart(e,i)} touchEnd={()=>this.OnTouchEnd(i)} onTouchEnter={(e)=>this.onFingMove(i)}/>
     }
 
     renderTopRow(){
@@ -186,7 +198,7 @@ class Board extends React.Component {
         <div className="container">
           
           <div className="status">{status}</div>
-          <button onClick={this.reset}>Reset</button>
+          <button className="btn btn-primary" onClick={this.reset}>Restart</button>
           <div>Click on a square:</div>
           <div className="c4container">
           <div className='toprow'>
@@ -278,21 +290,31 @@ function c4Winner(squares){
         if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c] && squares[c] ===squares[d]) {
           return squares[a];
         }
-        else if(!squares.includes(null)) return "TIE"
+        else if(squares[a] && squares[a] === squares[b] && squares[b] === squares[c] ){
+          return squares[a]==human?60:-60;
+        }
+        else if(squares[a] && squares[a] === squares[b] ){
+          return squares[a]==human?40:-40;
+        }
+        //else if(!squares.includes(null)) return "TIE"
+
+        else {
+          return squares[a]==human?20:-20;
+        }
 
     }
-      return null;
 }
   function miniMax1(human,ai,board,memo={},depth,Max){
     
       
-    if (depth in memo) return memo[depth]
+    if (depth==0) {
+    
    
    let res=c4Winner(board);
-   if (res!==null){
-     let score=res==human?100:res==ai?-100:0;
+   let score=res==human?80:res==ai?-80:res;
      return score
-   }
+    }
+   
    
   
    
@@ -301,7 +323,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if (board[i]==null && board[i+7]!==null){
          board[i]=human;
-         var score=miniMax1(human,ai,board,memo,depth+1,false);
+         var score=miniMax1(human,ai,board,memo,depth-1,false);
          board[i]=null
          best=Math.max(best,score);
          memo[depth]=best
@@ -315,7 +337,7 @@ function c4Winner(squares){
      for (let i=0;i<42;i++){
        if(board[i]==null && board[i+7]!==null){
          board[i]=ai;
-         var score=miniMax1(human,ai,board,memo,depth,true);
+         var score=miniMax1(human,ai,board,memo,depth-1,true);
          board[i]=null
          best=Math.min(best,score);
          memo[depth]=best
@@ -325,6 +347,8 @@ function c4Winner(squares){
      return memo[depth]
      
    }
-  }
+
+
+}
 
   export default Game;
